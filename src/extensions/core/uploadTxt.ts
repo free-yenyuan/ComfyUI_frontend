@@ -136,6 +136,8 @@ app.registerExtension({
         const onTxtWidgetUpdate = () => {
           txtUIWidget.element.value = txtWidget.value
         }
+
+        //todo: 恢复文本
         // 初始化时加载默认文本到 txtUIWidget
         if (txtWidget.value) {
           onTxtWidgetUpdate()
