@@ -43,7 +43,7 @@ async function uploadFile(
     const body = new FormData()
     body.append('image', file)
     if (pasted) body.append('subfolder', 'pasted')
-    const resp = await api.fetchApi('', { method: 'POST', body })
+    const resp = await api.fetchApi('/upload/image', { method: 'POST', body })
 
     if (resp.status === 200) {
       const data = await resp.json()
@@ -67,7 +67,7 @@ async function uploadFile(
 app.registerExtension({
   name: 'Comfy.TxtWidget',
   async beforeRegisterNodeDef(nodeType, nodeData) {
-    if (['ScriptLoader'].includes(nodeType.comfyClass)) {
+    if (['Script Loader'].includes(nodeType.comfyClass)) {
       console.log(nodeType.comfyClass)
       nodeData.input.required.txtUI = ['TXT_UI']
     }
@@ -81,6 +81,7 @@ app.registerExtension({
 
         const txtUIWidget: DOMWidget<HTMLTextAreaElement> = node.addDOMWidget(
           inputName,
+          'txtUI',
           txt
         )
 
@@ -118,18 +119,18 @@ app.registerExtension({
 app.registerExtension({
   name: 'Comfy.UploadTxt',
   async beforeRegisterNodeDef(nodeType, nodeData: ComfyNodeDef) {
-    if (nodeData?.input?.required?.text?.[1]?.text_upload === true) {
+    if (nodeData?.input?.required?.txt?.[1]?.txt_upload === true) {
       nodeData.input.required.upload = ['TXTUPLOAD']
     }
   },
   getCustomWidgets() {
     return {
       TXTUPLOAD(node, inputName: string) {
-        console.log('test')
+        console.log(node.widgets)
 
         // 允许用户选择文件的小部件
         const txtWidget: IWidget = node.widgets.find(
-          (w: IWidget) => w.name === 'text'
+          (w: IWidget) => w.name === 'txt'
         )
         const txtUIWidget: DOMWidget<HTMLTextAreaElement> = node.widgets.find(
           (w: IWidget) => w.name === 'txtUI'
