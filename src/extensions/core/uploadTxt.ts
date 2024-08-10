@@ -68,7 +68,6 @@ app.registerExtension({
   name: 'Comfy.TxtWidget',
   async beforeRegisterNodeDef(nodeType, nodeData) {
     if (['Script Loader'].includes(nodeType.comfyClass)) {
-      console.log(nodeType.comfyClass)
       nodeData.input.required.txtUI = ['TXT_UI']
     }
   },
@@ -126,8 +125,6 @@ app.registerExtension({
   getCustomWidgets() {
     return {
       TXTUPLOAD(node, inputName: string) {
-        console.log(node.widgets)
-
         // 允许用户选择文件的小部件
         const txtWidget: IWidget = node.widgets.find(
           (w: IWidget) => w.name === 'txt'
