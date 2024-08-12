@@ -3,7 +3,7 @@ import { ComfyDialog as _ComfyDialog } from './ui/dialog'
 import { toggleSwitch } from './ui/toggleSwitch'
 import { ComfySettingsDialog } from './ui/settings'
 import { ComfyApp, app } from './app'
-import { TaskItem } from '@/types/apiTypes'
+import { StatusWsMessageStatus, TaskItem } from '@/types/apiTypes'
 
 export const ComfyDialog = _ComfyDialog
 
@@ -422,14 +422,6 @@ export class ComfyUI {
         step: 1
       },
       defaultValue: 0
-    })
-
-    this.settings.addSetting({
-      id: 'Comfy.NodeSearchBoxImpl',
-      name: 'Node Search box implementation',
-      type: 'combo',
-      options: ['default', 'litegraph (legacy)'],
-      defaultValue: 'default'
     })
 
     this.settings.addSetting({

@@ -254,7 +254,6 @@ export function addDomClippingSetting(): void {
   })
 }
 
-//@ts-ignore
 LGraphNode.prototype.addDOMWidget = function (
   name: string,
   type: string,
@@ -264,7 +263,7 @@ LGraphNode.prototype.addDOMWidget = function (
   options = { hideOnZoom: true, selectOn: ['focus', 'click'], ...options }
 
   if (!element.parentElement) {
-    document.body.append(element)
+    app.canvasContainer.append(element)
   }
   element.hidden = true
   element.style.display = 'none'
@@ -335,8 +334,8 @@ LGraphNode.prototype.addDOMWidget = function (
       Object.assign(element.style, {
         transformOrigin: '0 0',
         transform: scale,
-        left: `${transform.a + transform.e + elRect.left}px`,
-        top: `${transform.d + transform.f + elRect.top}px`,
+        left: `${transform.a + transform.e}px`,
+        top: `${transform.d + transform.f}px`,
         width: `${widgetWidth - margin * 2}px`,
         height: `${(widget.computedHeight ?? 50) - margin * 2}px`,
         position: 'absolute',

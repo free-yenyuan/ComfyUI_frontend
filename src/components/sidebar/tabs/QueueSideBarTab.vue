@@ -60,9 +60,11 @@
     </Column>
   </DataTable>
   <div v-else>
-    <Message icon="pi pi-info" severity="error">
-      <span class="ml-2">No tasks</span>
-    </Message>
+    <NoResultsPlaceholder
+      icon="pi pi-info-circle"
+      :title="$t('noTasksFound')"
+      :message="$t('noTasksFoundMessage')"
+    />
   </div>
 </template>
 
@@ -73,7 +75,7 @@ import Tag from 'primevue/tag'
 import Button from 'primevue/button'
 import ConfirmPopup from 'primevue/confirmpopup'
 import Toast from 'primevue/toast'
-import Message from 'primevue/message'
+import NoResultsPlaceholder from '@/components/common/NoResultsPlaceholder.vue'
 import { useConfirm } from 'primevue/useconfirm'
 import { useToast } from 'primevue/usetoast'
 import {
@@ -81,7 +83,7 @@ import {
   TaskItemImpl,
   useQueueStore
 } from '@/stores/queueStore'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, onUnmounted } from 'vue'
 import { api } from '@/scripts/api'
 
 const confirm = useConfirm()
@@ -143,12 +145,15 @@ const confirmRemoveAll = (event) => {
     }
   })
 }
+
+const onStatus = () => queueStore.update()
 onMounted(() => {
-  api.addEventListener('status', () => {
-    queueStore.update()
-  })
+  api.addEventListener('status', onStatus)
 
   queueStore.update()
+})
+onUnmounted(() => {
+  api.removeEventListener('status', onStatus)
 })
 </script>
 

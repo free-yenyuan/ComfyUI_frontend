@@ -1,7 +1,7 @@
 <template>
   <div class="setting-group">
-    <Divider />
-    <h3>{{ group.label }}</h3>
+    <Divider v-if="divider" />
+    <h3>{{ formatCamelCase(group.label) }}</h3>
     <div
       v-for="setting in group.settings"
       :key="setting.id"
@@ -40,12 +40,14 @@ import ToggleSwitch from 'primevue/toggleswitch'
 import Divider from 'primevue/divider'
 import CustomSettingValue from '@/components/dialog/content/setting/CustomSettingValue.vue'
 import InputSlider from '@/components/dialog/content/setting/InputSlider.vue'
+import { formatCamelCase } from '@/utils/formatUtil'
 
 defineProps<{
   group: {
     label: string
     settings: SettingParams[]
   }
+  divider?: boolean
 }>()
 
 const settingStore = useSettingStore()

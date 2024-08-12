@@ -9,6 +9,7 @@
 
 import { app } from '@/scripts/app'
 import { ComfySettingsDialog } from '@/scripts/ui/settings'
+import { LinkReleaseTriggerMode } from '@/types/searchBoxTypes'
 import { SettingParams } from '@/types/settingTypes'
 import { buildTree } from '@/utils/treeUtil'
 import { defineStore } from 'pinia'
@@ -56,6 +57,30 @@ export const useSettingStore = defineStore('setting', {
         this.settingValues[id] = value
       }
       this.settings = settings.settingsParamLookup
+
+      app.ui.settings.addSetting({
+        id: 'Comfy.Validation.Workflows',
+        name: 'Validate workflows',
+        type: 'boolean',
+        defaultValue: true
+      })
+
+      app.ui.settings.addSetting({
+        id: 'Comfy.NodeSearchBoxImpl',
+        name: 'Node Search box implementation',
+        type: 'combo',
+        options: ['default', 'litegraph (legacy)'],
+        defaultValue: 'default'
+      })
+
+      app.ui.settings.addSetting({
+        id: 'Comfy.NodeSearchBoxImpl.LinkReleaseTrigger',
+        name: 'Trigger on link release',
+        tooltip: 'Only applies to the default implementation',
+        type: 'combo',
+        options: Object.values(LinkReleaseTriggerMode),
+        defaultValue: LinkReleaseTriggerMode.ALWAYS
+      })
     },
 
     set(key: string, value: any) {
